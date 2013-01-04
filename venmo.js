@@ -33,22 +33,22 @@ Venmo.prototype.pay = function (query, callback) {
   var url;
 
   if (!query.user) {
-    callback(new Error('Error thrown by venmo.js: You are required to specify a user to submit a payment.'));
+    return callback(new Error('Error thrown by venmo.js: You are required to specify a user to submit a payment.'));
   } 
   if (!query.amount) {
-    callback(new Error('Error thrown by venmo.js: You are required to specify an amount to submit a payment.'));
+    return callback(new Error('Error thrown by venmo.js: You are required to specify an amount to submit a payment.'));
   }
 
   url = BASE_URL + query.user + '?txn=pay&amount=' + query.amount;
 
   if (query.note) {
-    url += '&note=' + query.note;
+    url += '&note=' + query.note.replace(/ /g,"+");
   }
   if (query.share) {
     var share = '';
 
     if (!(_.contains(query.share, 'Venmo') || _.contains(query.share, 'Facebook') || _.contains(query.share, 'Twitter'))) {
-      callback(new Error('Error thrown by venmo.js: Invalid sharing options. Valid options are \'Venmo\', \'Facebook\' and \'Twitter\'.'));
+      return callback(new Error('Error thrown by venmo.js: Invalid sharing options. Valid options are \'Venmo\', \'Facebook\' and \'Twitter\'.'));
     } else {
       if (_.contains(query.share, 'Venmo')) {
         share += 'v';
@@ -85,16 +85,16 @@ Venmo.prototype.charge = function (query, callback) {
   var url;
 
   if (!query.user) {
-    callback(new Error('Error thrown by venmo.js: You are required to specify a user to submit a payment.'));
+    return callback(new Error('Error thrown by venmo.js: You are required to specify a user to submit a payment.'));
   } 
   if (!query.amount) {
-    callback(new Error('Error thrown by venmo.js: You are required to specify an amount to submit a payment.'));
+    return callback(new Error('Error thrown by venmo.js: You are required to specify an amount to submit a payment.'));
   }
 
   url = BASE_URL + query.user + '?txn=pay&amount=' + query.amount;
 
   if (query.note) {
-    url += '&note=' + query.note;
+    url += '&note=' + query.note.replace(/ /g,"_");
   }
   if (query.share) {
     var share = '';

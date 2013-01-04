@@ -1,11 +1,7 @@
 var assert = require('assert')
-  , Venmo = require('../venmo')
-  , venmo = new Venmo(1204, "QhgJFBDxXrq2ZvXBWqKLdAeZjAZJCNkX")
-  , query = { user: "Zachary-Friedman", amount: 100, note: "for+testing+venmo.js" };
+  , Venmo = require('../venmo');
 
 /**
-* venmo.pay(query, function (error, url) { console.log(url); });
-*
 * venmo.findByEmail("zafriedman@gmail.com", function (error, results) { console.log(results); });
 * venmo.findByPhoneNumber(8182920209, function (error, results) { console.log(results); });
 * venmo.findByFacebookId(8645350, function (error, results) { console.log(results); });
@@ -14,6 +10,8 @@ var assert = require('assert')
 */
 
 describe('Venmo', function () {
+  var venmo = new Venmo(1204, "QhgJFBDxXrq2ZvXBWqKLdAeZjAZJCNkX");
+
   describe('client_id', function () {
     it('should assign client_id when passed to the constructor', function () {
        assert.equal(1204, venmo.client_id);
@@ -27,11 +25,106 @@ describe('Venmo', function () {
   })
 
   describe('#pay()', function () {
-    it('should throw an error if there is no user specified', function () {})
-    it('should throw an error if there is no amount specified', function () {})
-    it('should generate a proper payment url', function () {})
-    it('should accept a note property', function () {})
-    it('should accept a share property', function () {})
+    it('should throw an error if there is no user specified', function () {
+      var object = {
+        amount: 100
+      }
+
+      venmo.pay(object, function (error, url) {
+        if (error) {
+          assert(true);
+        } else {
+          assert(false);
+        }
+      });
+    })
+    it('should throw an error if there is no amount specified', function () {
+      var object = {
+        user: 'Zachary-Friedman'
+      }
+
+      venmo.pay(object, function (error, url) {
+        if (error) { assert(true); } else { assert(false); }
+      });
+    })
+    it('should generate a proper payment url', function () {
+      var object = {
+        user: 'Zachary-Friedman'
+      , amount: 100
+      }
+      var VALID_URL = 'https://venmo.com/Zachary-Friedman?txn=pay&amount=100'
+
+      venmo.pay(object, function (error, url) {
+        if (error) {
+          assert(false);
+        } else {
+          assert.equal(url, VALID_URL);
+        }
+      });
+    })
+    it('should accept a note property', function () {
+      var object = {
+        user: 'Zachary-Friedman'
+      , amount: 100
+      , note: 'for testing venmo.js'
+      }
+      var VALID_URL = 'https://venmo.com/Zachary-Friedman?txn=pay&amount=100&note=for+testing+venmo.js'
+
+      venmo.pay(object, function (error, url) {
+        if (error) {
+          assert(false);
+        } else {
+          assert.equal(url, VALID_URL);
+        }
+      });
+    })
+    it('should accept a share property', function () {
+      var object = {
+        user: 'Zachary-Friedman'
+      , amount: 100
+      , share: ["Venmo"]
+      }
+      var VALID_URL = 'https://venmo.com/Zachary-Friedman?txn=pay&amount=100&share=v'
+
+      venmo.pay(object, function (error, url) {
+        if (error) {
+          assert(false);
+        } else {
+          assert.equal(url, VALID_URL);
+        }
+      });
+    })
+    it('should append \'Venmo\' when it is not included with other valid share array elements', function () {
+      var object = {
+        user: 'Zachary-Friedman'
+      , amount: 100
+      , share: ["Facebook", "Twitter"]
+      }
+      var VALID_URL = 'https://venmo.com/Zachary-Friedman?txn=pay&amount=100&share=ftv'
+
+      venmo.pay(object, function (error, url) {
+        if (error) {
+          assert(false);
+        } else {
+          assert.equal(url, VALID_URL);
+        }
+      });
+    })
+    it('should throw an error when passed an invalid share property', function () {
+      var object = {
+        user: 'Zachary-Friedman'
+      , amount: 100
+      , share: ["Google+"]
+      }
+
+      venmo.pay(object, function (error, url) {
+        if (error) {
+          assert(true);
+        } else {
+          assert(false);
+        }
+      });
+    })
     it('should accept multiple recipients', function () {}) 
   })
 
@@ -42,5 +135,8 @@ describe('Venmo', function () {
     it('should accept a note property', function () {})
     it('should accept a share property', function () {})
     it('should accept multiple recipients', function () {}) 
+  })
+
+  describe('#find()', function () {
   })
 })
