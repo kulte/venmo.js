@@ -21,18 +21,18 @@ Payment Links API
 
 The Payment Links API is a simple interface for generating urls to serve as the entry point to make a Venmo payment or charge. Using it with venmo.js is quite straightforward. First, you'll need to register your app with Venmo. Then, start creating payment links:
 
-		var Venmo = require('venmo')
-		  , venmo = new Venmo(client_id, client_secret)
+    var Venmo = require('venmo')
+      , venmo = new Venmo(client_id, client_secret)
 
-		var object = {
-				user: 'Zachary-Friedman'
-		  , amount: 1000
-		};
+    var object = {
+        user: 'Zachary-Friedman'
+      , amount: 1000
+    };
 
-		venmo.pay(object, function (error, link) {
-			if (error) {
-				console.log(error);
-			} else {
-				console.log(link) # => https://venmo.com/Zachary-Friedman?txn=payment&amount=1000
-			}
-		});
+    venmo.pay(object, function (error, link) {
+      if (error) {
+        console.log(error);
+      } else {
+        console.log(link) # => https://venmo.com/Zachary-Friedman?txn=payment&amount=1000
+      }
+    });
