@@ -3,10 +3,23 @@
   , "version": "0.0.1"
   , "description": "Venmo API client for node.js"
   , "keywords": ["venmo", "api", "client", "library"]
-  , "homepage": ""
+  , "homepage": "https://github.com/kulte/venmo.js"
+  , "bugs": {
+        "url": "https://github.com/kulte/venmo.js/issues"
+      , "email": "zafriedman@gmail.com"
+  }
+  , "author": "Zachary Friedman <zafriedman@gmail.com> (http://betareduction.tumblr.com)"
+  , "main": "venmo"
+  , "repository": {
+        "type": "git"
+      , "url": "git@github.com:kulte/venmo.js.git"
+  }
   , "dependencies": {
         "superagent": "0.11.0"
       , "underscore": "1.4.3"
       , "mocha": "1.7.4"
-    }
+  }
+  , "engines": {
+        "node": "*"
+  }
 }
