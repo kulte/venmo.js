@@ -12,8 +12,6 @@ To install venmo.js from npm
 
 or include it in your `package.json` file
 
-    [...]
     "dependencies": {
       "venmo": "0.0.1"
     }
-    [...]
