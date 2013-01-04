@@ -89,7 +89,7 @@ venmo.js also provides convenience functions for when you have just a single que
       venmo.pay(payment, function (error, link) {
         if (error) { console.log(error); } else {
           console.log(link); # => https://venmo.com/Zachary-Friedman?txn=pay&amount=100&note=for+being+awesome
-         }
+        }
       });
     });
 
