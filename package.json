@@ -1,0 +1,12 @@
+{
+    "name": "venmo"
+  , "version": "0.0.1"
+  , "description": "Venmo API client for node.js"
+  , "keywords": ["venmo", "api", "client", "library"]
+  , "homepage": ""
+  , "dependencies": {
+        "superagent": "0.11.0"
+      , "underscore": "1.4.3"
+      , "mocha": "1.7.4"
+    }
+}
