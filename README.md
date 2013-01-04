@@ -62,7 +62,7 @@ So if you'd like to make a payment, but you don't know the individual's Venmo us
         var query = {
             user: _.first(results).username /* _.first is a function from the wonderful underscore.js library */
           , amount: 2000
-          , note: 'for automatic tax hikes"
+          , note: 'for automatic tax hikes'
         };
 
         venmo.pay(query, function (error, url) {
