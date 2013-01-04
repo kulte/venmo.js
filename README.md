@@ -33,7 +33,7 @@ The Payment Links API is a simple interface for generating urls to serve as the 
       if (error) {
         console.log(error);
       } else {
-        console.log(link) # => https://venmo.com/Zachary-Friedman?txn=payment&amount=1000
+        console.log(link) # => https://venmo.com/Zachary-Friedman?txn=pay&amount=1000
       }
     });
 
