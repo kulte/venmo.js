@@ -76,3 +76,27 @@ So if you'd like to make a payment, but you don't know the individual's Venmo us
         });
       }
     });
+
+venmo.js also provides convenience functions for when you have just a single query to run against the Application API. Let's say you would like to pay the developer of this library for his hard work in making a beautiful abstraction over the Venmo API :) It's as easy as the following:
+
+    venmo.findByTwitter("_kulte", function (error, result) {
+      var payment = {
+          user: result.username
+        , amount: 100
+        , note: 'for being awesome'
+      };
+
+      venmo.pay(payment, function (error, link) {
+        if (error) { console.log(error); } else {
+          console.log(link); # => https://venmo.com/Zachary-Friedman?txn=pay&amount=100&note=for+being+awesome
+         }
+      });
+    });
+
+The other convenience functions are:
+
+* `findByEmail()`
+* `findByPhoneNumber()`
+* `findByFacebookId()`
+* `findByFoursquareId()`
+* `findByTwitter()`
