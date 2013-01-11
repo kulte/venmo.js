@@ -22,25 +22,25 @@ function Venmo (client_id, client_secret) {
 }
 
 /**
-* Pay function.
+* Transaction function.
 *
 * @param {Object} query
 * @param {Function} callback
-* @api public
+* @api private
 */
 
-Venmo.prototype.pay = function (query, callback) {
-  var url;
+function transaction(query, callback) {
+  var url = BASE_URL;
 
-  if (!query.user) {
-    return callback(new Error('Error thrown by venmo.js: You are required to specify a user to submit a payment.'));
-  } 
-  if (!query.amount) {
-    return callback(new Error('Error thrown by venmo.js: You are required to specify an amount to submit a payment.'));
+  if (query.user) {
+    url += query.user + '?txn=' + query.transaction;
+  } else {
+    url += '?txn=' + query.transaction
   }
 
-  url = BASE_URL + query.user + '?txn=pay&amount=' + query.amount;
-
+  if (query.amount) {
+    url += '&amount=' + query.amount;
+  }
   if (query.note) {
     url += '&note=' + query.note.replace(/ /g,"+");
   }
@@ -74,6 +74,24 @@ Venmo.prototype.pay = function (query, callback) {
 }
 
 /**
+* Pay function.
+*
+* @param {Object} query
+* @param {Function} callback
+* @api public
+*/
+
+Venmo.prototype.pay = function (query, callback) {
+  transaction(_.extend(query, { transaction: 'pay' }), function (error, url) {
+    if (error) {
+      return callback(error);
+    } else {
+      return callback(null, url);
+    }
+  });
+}
+
+/**
 * Charge function.
 *
 * @param {Object} query
@@ -82,47 +100,13 @@ Venmo.prototype.pay = function (query, callback) {
 */
 
 Venmo.prototype.charge = function (query, callback) {
-  var url;
-
-  if (!query.user) {
-    return callback(new Error('Error thrown by venmo.js: You are required to specify a user to submit a payment.'));
-  } 
-  if (!query.amount) {
-    return callback(new Error('Error thrown by venmo.js: You are required to specify an amount to submit a payment.'));
-  }
-
-  url = BASE_URL + query.user + '?txn=pay&amount=' + query.amount;
-
-  if (query.note) {
-    url += '&note=' + query.note.replace(/ /g,"_");
-  }
-  if (query.share) {
-    var share = '';
-
-    if (!(_.contains(query.share, 'Venmo') || _.contains(query.share, 'Facebook') || _.contains(query.share, 'Twitter'))) {
-      callback(new Error('Error thrown by venmo.js: Invalid sharing options. Valid options are \'Venmo\', \'Facebook\' and \'Twitter\'.'));
+  transaction(_.extend(query, { transaction: 'charge' }), function (error, url) {
+    if (error) {
+      return callback(error);
     } else {
-      if (_.contains(query.share, 'Venmo')) {
-        share += 'v';
-      }
-      if (_.contains(query.share, 'Facebook')) {
-        share += 'f';
-      }
-      if (_.contains(query.share, 'Twitter')) {
-        share += 't';
-      }
+      return callback(null, url);
     }
-
-    if ((_.contains(share, 'f') || _.contains(share, 't') && !_.contains(share, 'v'))) {
-      share += 'v';
-    }
-    url += '&share=' + share;
-  }
-  if (query.recipients) {
-    url += '&recipients=' + query.recipients;
-  }
-
-  return callback(null, url);
+  });
 }
 
 /**

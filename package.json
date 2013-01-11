@@ -1,6 +1,6 @@
 {
     "name": "venmo"
-  , "version": "0.0.1"
+  , "version": "0.0.2"
   , "description": "Venmo API client for node.js"
   , "keywords": ["venmo", "api", "client", "library"]
   , "homepage": "https://github.com/kulte/venmo.js"

@@ -25,28 +25,6 @@ describe('Venmo', function () {
   })
 
   describe('#pay()', function () {
-    it('should throw an error if there is no user specified', function () {
-      var object = {
-        amount: 100
-      }
-
-      venmo.pay(object, function (error, url) {
-        if (error) {
-          assert(true);
-        } else {
-          assert(false);
-        }
-      });
-    })
-    it('should throw an error if there is no amount specified', function () {
-      var object = {
-        user: 'Zachary-Friedman'
-      }
-
-      venmo.pay(object, function (error, url) {
-        if (error) { assert(true); } else { assert(false); }
-      });
-    })
     it('should generate a proper payment url', function () {
       var object = {
         user: 'Zachary-Friedman'
@@ -129,9 +107,21 @@ describe('Venmo', function () {
   })
 
   describe('#charge()', function () {
-    it('should throw an error if there is no user specified', function () {})
-    it('should throw an error if there is no amount specified', function () {})
-    it('should generate a proper payment url', function () {})
+    it('should generate a proper payment url', function () {
+      var object = {
+        user: 'Zachary-Friedman'
+      , amount: 100
+      }
+      var VALID_URL = 'https://venmo.com/Zachary-Friedman?txn=charge&amount=100'
+
+      venmo.charge(object, function (error, url) {
+        if (error) {
+          assert(false);
+        } else {
+          assert.equal(url, VALID_URL);
+        }
+      });
+    })
     it('should accept a note property', function () {})
     it('should accept a share property', function () {})
     it('should accept multiple recipients', function () {}) 
